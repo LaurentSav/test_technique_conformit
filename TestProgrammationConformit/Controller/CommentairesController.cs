@@ -84,7 +84,8 @@ namespace TestProgrammationConformit.Controller
             var evenement = await _context.Evenements.FindAsync(commentaire.evenementId);
             commentaire.evenement = evenement;
             _context.Commentaires.Add(commentaire);
-            evenement.Commentaires.Add(new Commentaire { date = commentaire.date, description = commentaire.description, evenement = commentaire.evenement, evenementId = commentaire.evenementId, Id = commentaire.Id });
+            evenement.Commentaires.Add(commentaire);
+            _context.Entry(evenement).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCommentaire", new { id = commentaire.Id }, commentaire);
